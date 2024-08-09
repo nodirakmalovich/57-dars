@@ -25,6 +25,12 @@ export default function Hero({ data, setData, loading, filteredUser, setFiltered
         const newData = data.filter(user => user.id !== userId)
         setData(newData)
         setFilteredUser(newData);
+
+        fetch(`https://dummyjson.com/users/${userId}`, {
+            method: 'DELETE',
+        })
+            .then(res => res.json())
+            .then(console.log);
     }
 
     const editUser = (user) => {
@@ -54,6 +60,17 @@ export default function Hero({ data, setData, loading, filteredUser, setFiltered
         cloneData[selectedIndex].email = email
         cloneData[selectedIndex].gender = selectedGender
         setIsModalOpen(false)
+
+        fetch('https://dummyjson.com/users/add', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                firstName: firstName,
+                lastName: lastName,
+            })
+        })
+            .then(res => res.json())
+            .then(console.log);
 
     }
 
@@ -176,7 +193,7 @@ export default function Hero({ data, setData, loading, filteredUser, setFiltered
                     </div>
 
                     <div className="info_modal_info">
-                        <table className="table-auto w-full border-collapse mt-6">
+                        <table className="table-auto w-full border-collapse mt-6 ">
                             <thead>
                                 <tr className="bg-gray-200">
                                     <th className="px-4 py-2 border-b-2 border-gray-300">State</th>
